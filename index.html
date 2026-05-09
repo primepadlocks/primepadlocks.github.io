@@ -12,33 +12,38 @@
         }
 
         body {
-            display: flex;
-            flex-direction: column;
-            justify-content: flex-start;
-            align-items: center;
-            min-height: 100vh;
             background-color: #1e1e24;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            color: #fff;
-            padding-top: 20px;
-            padding-bottom: 40px;
+            color: #e0e0e0;
+            line-height: 1.6;
         }
 
-        /* Top Navigation Buttons */
+        /* --- Header & Navigation --- */
+        header {
+            position: sticky;
+            top: 0;
+            background-color: #1e1e24;
+            z-index: 100;
+            padding: 15px 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-bottom: 1px solid #333;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
         .nav-buttons {
             display: flex;
             gap: 10px;
             flex-wrap: wrap;
             justify-content: center;
-            padding: 0 10px;
-            margin-bottom: 40px;
         }
 
         .nav-buttons button {
             background-color: #333;
             color: #ddd;
             border: 1px solid #555;
-            padding: 10px 18px;
+            padding: 8px 16px;
             border-radius: 6px;
             font-size: 0.95rem;
             cursor: pointer;
@@ -57,9 +62,41 @@
             box-shadow: 0 2px 8px rgba(46, 139, 87, 0.4);
         }
 
-        /* Status and Prime Indicator */
+        .icon-btn {
+            position: absolute;
+            right: 20px;
+            background: none;
+            border: none;
+            color: #aaa;
+            cursor: pointer;
+            transition: color 0.2s, transform 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .icon-btn:hover {
+            color: #fff;
+            transform: rotate(30deg);
+        }
+
+        /* --- Views --- */
+        .view-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        /* --- Simulator View --- */
         .status-container {
-            margin-bottom: 30px;
+            margin: 20px 0 30px 0;
             text-align: center;
         }
 
@@ -68,6 +105,7 @@
             letter-spacing: 8px;
             font-family: monospace;
             margin-bottom: 20px;
+            color: #fff;
         }
 
         .prime-indicator {
@@ -76,10 +114,12 @@
             border-radius: 20px;
             background-color: #444;
             transition: background-color 0.3s;
+            display: inline-block;
         }
 
         .prime-indicator.is-prime {
-            background-color: #2e8b57; /* Sea Green */
+            background-color: #2e8b57; 
+            color: white;
         }
 
         /* Lock Mechanism */
@@ -90,7 +130,7 @@
             padding: 25px;
             border-radius: 12px;
             box-shadow: 0 15px 35px rgba(0,0,0,0.6), inset 0 2px 5px rgba(255,255,255,0.1);
-            margin-bottom: 40px;
+            margin-bottom: 30px;
         }
 
         /* Individual Wheels */
@@ -107,17 +147,12 @@
             cursor: grab;
         }
 
-        .wheel:active {
-            cursor: grabbing;
-        }
+        .wheel:active { cursor: grabbing; }
 
         .wheel::after {
             content: '';
             position: absolute;
-            top: 50%;
-            left: 0;
-            right: 0;
-            height: 2px;
+            top: 50%; left: 0; right: 0; height: 2px;
             background: rgba(255, 0, 0, 0.4);
             transform: translateY(-50%);
             pointer-events: none;
@@ -126,18 +161,13 @@
 
         .wheel-inner {
             position: absolute;
-            top: 50%;
-            left: 0;
-            width: 100%;
-            display: flex;
-            flex-direction: column;
+            top: 50%; left: 0; width: 100%;
+            display: flex; flex-direction: column;
             transform: translateY(-50%);
             transition: transform 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94); 
         }
 
-        .wheel-inner.dragging {
-            transition: none;
-        }
+        .wheel-inner.dragging { transition: none; }
 
         .digit {
             height: 50px;
@@ -148,89 +178,243 @@
             color: #222;
         }
 
-        /* Controls */
         .undo-btn {
             background-color: #d9534f;
             color: white;
             border: none;
-            padding: 14px 28px;
-            font-size: 1.1rem;
+            padding: 12px 24px;
+            font-size: 1rem;
             border-radius: 6px;
             cursor: pointer;
             box-shadow: 0 4px 6px rgba(0,0,0,0.3);
             transition: background-color 0.2s, transform 0.1s;
+            margin-bottom: 50px;
         }
 
-        .undo-btn:hover {
-            background-color: #c9302c;
-        }
-
-        .undo-btn:active {
-            transform: translateY(2px);
-            box-shadow: 0 1px 3px rgba(0,0,0,0.3);
-        }
-
+        .undo-btn:hover { background-color: #c9302c; }
+        .undo-btn:active { transform: translateY(2px); }
         .undo-btn:disabled {
-            background-color: #555;
-            color: #888;
-            cursor: not-allowed;
-            box-shadow: none;
+            background-color: #555; color: #888;
+            cursor: not-allowed; box-shadow: none;
+        }
+
+        /* --- Problems Section --- */
+        .problems-container {
+            width: 100%;
+            border-top: 2px solid #333;
+            padding-top: 40px;
+        }
+
+        .problems-title {
+            font-size: 2rem;
+            color: #fff;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .intro-text {
+            font-size: 1.1rem;
+            margin-bottom: 30px;
+            color: #ccc;
+            text-align: left;
+        }
+
+        .problem-box {
+            background-color: #272732;
+            border-left: 5px solid #00a8ff;
+            padding: 20px;
+            border-radius: 0 8px 8px 0;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+        }
+
+        .problem-title {
+            font-size: 1.25rem;
+            color: #00a8ff;
+            margin-bottom: 10px;
+        }
+
+        .problem-text {
+            font-size: 1.05rem;
+            margin-bottom: 20px;
+        }
+
+        /* Native Dropdown Solution */
+        details.solution {
+            background: #1e1e24;
+            border: 1px solid #444;
+            border-radius: 6px;
+            overflow: hidden;
+        }
+
+        details.solution summary {
+            background: #333;
+            padding: 12px 20px;
+            font-weight: bold;
+            cursor: pointer;
+            outline: none;
+            user-select: none;
+            transition: background 0.2s;
+        }
+
+        details.solution summary:hover { background: #444; }
+        
+        .solution-content {
+            padding: 20px;
+            border-top: 1px solid #444;
+            color: #bbb;
+        }
+
+        /* --- Route Finder View --- */
+        .route-builder {
+            background: #2a2a35;
+            padding: 30px;
+            border-radius: 12px;
+            width: 100%;
+            text-align: center;
+            font-size: 1.2rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            margin-top: 20px;
+        }
+
+        .route-builder select, .route-builder input {
+            font-size: 1.1rem;
+            padding: 6px 10px;
+            margin: 5px 8px;
+            border-radius: 6px;
+            border: 1px solid #555;
+            background: #111;
+            color: #fff;
+            font-family: monospace;
+            text-align: center;
+            outline: none;
+        }
+
+        .route-builder input { width: 110px; }
+        .route-builder input:focus { border-color: #00a8ff; }
+
+        .search-btn {
+            display: block;
+            margin: 25px auto 0 auto;
+            background-color: #00a8ff;
+            color: white;
+            border: none;
+            padding: 10px 30px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .search-btn:hover { background-color: #008cdb; }
+
+        .route-results {
+            margin-top: 30px;
+            width: 100%;
+            text-align: center;
+        }
+
+        .path-box {
+            background: #111;
+            padding: 20px;
+            border-radius: 8px;
+            border: 1px solid #444;
+            font-family: monospace;
+            font-size: 1.2rem;
+            color: #2e8b57;
+            display: inline-block;
+            max-width: 100%;
+            overflow-x: auto;
+            word-wrap: break-word;
+            line-height: 2;
         }
     </style>
 </head>
 <body>
 
-    <!-- Navigation Buttons -->
-    <div class="nav-buttons" id="nav-buttons">
-        <button onclick="window.location.href='?wheels=3'" id="btn-3">3 Wheels</button>
-        <button onclick="window.location.href='?wheels=4'" id="btn-4">4 Wheels</button>
-        <button onclick="window.location.href='?wheels=5'" id="btn-5">5 Wheels</button>
-    </div>
+    <!-- Header Navigation -->
+    <header>
+        <div class="nav-buttons" id="nav-buttons">
+            <button onclick="window.location.href='?wheels=3'" id="btn-3">3 Wheels</button>
+            <button onclick="window.location.href='?wheels=4'" id="btn-4">4 Wheels</button>
+            <button onclick="window.location.href='?wheels=5'" id="btn-5">5 Wheels</button>
+        </div>
+        <!-- Cog Icon toggles the Route Finder -->
+        <button class="icon-btn" id="toggle-view-btn" title="Open Route Finder">
+            <svg viewBox="0 0 24 24" width="28" height="28" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="3"></circle>
+                <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+            </svg>
+        </button>
+    </header>
 
-    <div class="status-container">
-        <div class="code-display" id="code-display"></div>
-        <div class="prime-indicator" id="prime-indicator">Prime: No</div>
-    </div>
+    <!-- MAIN SIMULATOR VIEW -->
+    <div id="simulator-view" class="view-container">
+        <div class="status-container">
+            <div class="code-display" id="code-display"></div>
+            <div class="prime-indicator" id="prime-indicator">Prime: No</div>
+        </div>
 
-    <div class="lock-container" id="lock-container">
-        <!-- Wheels will be injected by JavaScript -->
-    </div>
+        <div class="lock-container" id="lock-container">
+            <!-- Wheels injected via JS -->
+        </div>
 
-    <div class="controls">
         <button class="undo-btn" id="undo-btn" disabled>↺ Undo Last Move</button>
+
+        <!-- Problems Section -->
+        <div class="problems-container">
+            <h2 class="problems-title">Problems</h2>
+            <p class="intro-text">
+                On this page you will find a collection of experiments, problems or mathematics related to combination locks that will hopefully aid someone’s insomnia. Use the simulator to help you test solutions and understand the mechanics.
+                <br><br>
+                This is the first problem to explore, and while it is probably the hardest, it is also the one that inspired all of the rest. It was created by James Stanley, a brilliant creative & thinker (check him out: incoherency.co.uk). Let’s get in to it:
+            </p>
+
+            <div class="problem-box">
+                <h3 class="problem-title">Problem 1</h3>
+                <p class="problem-text">
+                    You come across a 5-digit combination padlock. The combination is 10723. The padlock is currently showing 00001. If the combination is ever set to a number that is not prime, it resets to 00001 immediately, so every intermediate state from 00001 to 10723 also must be prime. How do you input the combination?
+                    <br><br>
+                    The input wheels are arranged in the usual way: 5 positions with digits 0 to 9, decrementing from 0 gets you to 9, incrementing from 9 gets you to 0. There is a mechanism that prevents you from turning more than 1 wheel at a time. If you try to park a digit halfway between 2 values it springs back to one of the values before you are able to change another digit.
+                </p>
+                <details class="solution">
+                    <summary>Solution</summary>
+                    <div class="solution-content">
+                        <p>Write your detailed solution here... (Or use the Route Finder tool above to calculate it!)</p>
+                    </div>
+                </details>
+            </div>
+        </div>
+    </div>
+
+    <!-- ROUTE FINDER VIEW -->
+    <div id="route-view" class="view-container hidden">
+        <h2 style="margin-bottom: 10px;">Prime Route Finder</h2>
+        <p style="color: #aaa; margin-bottom: 20px;">Use this tool to find a continuous path of primes between two lock states.</p>
+        
+        <div class="route-builder">
+            Is there a prime route with 
+            <select id="route-wheels">
+                <option value="3">3 wheels</option>
+                <option value="4">4 wheels</option>
+                <option value="5" selected>5 wheels</option>
+            </select>
+            <br><br>
+            that starts at 
+            <input type="text" id="route-start" placeholder="00000" maxlength="5">
+            <br><br>
+            and goes to 
+            <input type="text" id="route-end" placeholder="00000" maxlength="5"> ?
+            
+            <button class="search-btn" id="route-search-btn">Search</button>
+        </div>
+
+        <div class="route-results" id="route-results"></div>
     </div>
 
     <script>
-        // --- Configuration via URL Parameters ---
-        const urlParams = new URLSearchParams(window.location.search);
-        let numWheels = parseInt(urlParams.get('wheels'), 10);
-        
-        // Default to 5 wheels if invalid or missing parameter
-        if (isNaN(numWheels) || numWheels < 3 || numWheels > 5) {
-            numWheels = 5;
-        }
-
-        // Highlight the active button
-        const activeButton = document.getElementById(`btn-${numWheels}`);
-        if(activeButton) activeButton.classList.add('active');
-
-        // --- State Management ---
-        let code = Array(numWheels).fill(0);
-        let history = [];
-        let activeWheelIndex = null;
-
-        // --- Dragging Variables ---
-        let startY = 0;
-        let currentY = 0;
-        const snapThreshold = 25; 
-
-        // --- DOM Elements ---
-        const lockContainer = document.getElementById('lock-container');
-        const codeDisplay = document.getElementById('code-display');
-        const primeIndicator = document.getElementById('prime-indicator');
-        const undoBtn = document.getElementById('undo-btn');
-
-        // --- Utility: Prime Number Checker ---
+        // --- Core Utility: Prime Number Checker ---
         function isPrime(num) {
             if (num <= 1) return false;
             if (num <= 3) return true;
@@ -241,7 +425,27 @@
             return true;
         }
 
-        // --- Initialization & Rendering ---
+        // ==========================================
+        // SIMULATOR LOGIC
+        // ==========================================
+        const urlParams = new URLSearchParams(window.location.search);
+        let numWheels = parseInt(urlParams.get('wheels'), 10);
+        if (isNaN(numWheels) || numWheels < 3 || numWheels > 5) numWheels = 5;
+
+        const activeButton = document.getElementById(`btn-${numWheels}`);
+        if(activeButton) activeButton.classList.add('active');
+
+        let code = Array(numWheels).fill(0);
+        let history = [];
+        let activeWheelIndex = null;
+        let startY = 0, currentY = 0;
+        const snapThreshold = 25; 
+
+        const lockContainer = document.getElementById('lock-container');
+        const codeDisplay = document.getElementById('code-display');
+        const primeIndicator = document.getElementById('prime-indicator');
+        const undoBtn = document.getElementById('undo-btn');
+
         function initLock() {
             lockContainer.innerHTML = '';
             code.forEach((value, index) => {
@@ -264,27 +468,21 @@
                 wheel.addEventListener('pointerdown', handlePointerDown);
                 lockContainer.appendChild(wheel);
             });
-
             updateStatusDisplay();
         }
 
-        // --- Update UI ---
         function updateStatusDisplay() {
             const currentCodeStr = code.join('');
             codeDisplay.innerText = currentCodeStr;
-            
             const num = parseInt(currentCodeStr, 10);
             const primeCheck = isPrime(num);
             primeIndicator.innerText = primeCheck ? `Prime: Yes` : `Prime: No`;
             primeIndicator.className = primeCheck ? 'prime-indicator is-prime' : 'prime-indicator';
-
             undoBtn.disabled = history.length === 0;
         }
 
-        // --- Wheel Interaction Logic ---
         function handlePointerDown(e) {
             if (activeWheelIndex !== null) return; 
-
             const wheel = e.currentTarget;
             activeWheelIndex = parseInt(wheel.dataset.index, 10);
             startY = e.clientY;
@@ -301,24 +499,20 @@
         function handlePointerMove(e) {
             if (activeWheelIndex === null) return;
             e.preventDefault(); 
-
             currentY = e.clientY;
             const deltaY = currentY - startY;
-
             const inner = document.getElementById(`wheel-inner-${activeWheelIndex}`);
             inner.style.transform = `translateY(calc(-50% + ${deltaY}px))`;
         }
 
         function handlePointerUp(e) {
             if (activeWheelIndex === null) return;
-
             window.removeEventListener('pointermove', handlePointerMove);
             window.removeEventListener('pointerup', handlePointerUp);
             window.removeEventListener('pointercancel', handlePointerUp);
 
             const inner = document.getElementById(`wheel-inner-${activeWheelIndex}`);
             inner.classList.remove('dragging');
-
             const deltaY = currentY - startY;
 
             if (deltaY > snapThreshold) {
@@ -330,7 +524,6 @@
             }
 
             inner.style.transform = ''; 
-            
             setTimeout(() => {
                 rebuildWheel(activeWheelIndex);
                 updateStatusDisplay();
@@ -350,10 +543,7 @@
             }
         }
 
-        // --- Undo Logic ---
-        function saveHistory() {
-            history.push([...code]);
-        }
+        function saveHistory() { history.push([...code]); }
 
         undoBtn.addEventListener('click', () => {
             if (history.length > 0) {
@@ -363,8 +553,133 @@
             }
         });
 
-        // --- Boot it up ---
         initLock();
+
+        // ==========================================
+        // VIEW TOGGLE LOGIC
+        // ==========================================
+        const toggleBtn = document.getElementById('toggle-view-btn');
+        const simView = document.getElementById('simulator-view');
+        const routeView = document.getElementById('route-view');
+        const navButtons = document.getElementById('nav-buttons');
+
+        // Force initial route finder dropdown to match current wheel page
+        document.getElementById('route-wheels').value = numWheels;
+
+        toggleBtn.addEventListener('click', () => {
+            if (routeView.classList.contains('hidden')) {
+                // Switch to route view
+                simView.classList.add('hidden');
+                navButtons.style.visibility = 'hidden'; // hide top buttons
+                routeView.classList.remove('hidden');
+                toggleBtn.innerHTML = `
+                    <svg viewBox="0 0 24 24" width="28" height="28" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="18" y1="6" x2="6" y2="18"></line>
+                        <line x1="6" y1="6" x2="18" y2="18"></line>
+                    </svg>`; // Switch to an X icon to close
+            } else {
+                // Switch back to sim
+                routeView.classList.add('hidden');
+                navButtons.style.visibility = 'visible';
+                simView.classList.remove('hidden');
+                toggleBtn.innerHTML = `
+                    <svg viewBox="0 0 24 24" width="28" height="28" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="3"></circle>
+                        <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+                    </svg>`;
+            }
+        });
+
+        // ==========================================
+        // ROUTE FINDER LOGIC (BFS)
+        // ==========================================
+        const routeWheelsSelect = document.getElementById('route-wheels');
+        const startInput = document.getElementById('route-start');
+        const endInput = document.getElementById('route-end');
+        const searchBtn = document.getElementById('route-search-btn');
+        const resultsDiv = document.getElementById('route-results');
+
+        // Dynamically adjust inputs based on dropdown selection
+        function updateInputConstraints() {
+            const w = parseInt(routeWheelsSelect.value, 10);
+            const placeholder = Array(w).fill('0').join('');
+            startInput.maxLength = w;
+            startInput.placeholder = placeholder;
+            endInput.maxLength = w;
+            endInput.placeholder = placeholder;
+            // truncate current values if they are too long
+            if(startInput.value.length > w) startInput.value = startInput.value.substring(0, w);
+            if(endInput.value.length > w) endInput.value = endInput.value.substring(0, w);
+        }
+
+        routeWheelsSelect.addEventListener('change', updateInputConstraints);
+        updateInputConstraints();
+
+        // Breadth First Search to find shortest valid path
+        function findPath(w, startStr, endStr) {
+            // Validate inputs
+            if (startStr.length !== w || endStr.length !== w || !/^\d+$/.test(startStr) || !/^\d+$/.test(endStr)) {
+                return { error: `Please enter valid ${w}-digit numbers.` };
+            }
+            if (startStr === endStr) return { path: [startStr] };
+
+            let queue = [[startStr]];
+            let visited = new Set();
+            visited.add(startStr);
+
+            while(queue.length > 0) {
+                let path = queue.shift();
+                let currentStr = path[path.length - 1];
+
+                if (currentStr === endStr) return { path: path };
+
+                // Generate neighbors by turning 1 wheel 1 click
+                for (let i = 0; i < w; i++) {
+                    let currentDigit = parseInt(currentStr[i], 10);
+                    for (let delta of [-1, 1]) {
+                        let newDigit = (currentDigit + delta + 10) % 10;
+                        let neighborStr = currentStr.substring(0, i) + newDigit + currentStr.substring(i + 1);
+
+                        if (!visited.has(neighborStr)) {
+                            // Rule: intermediate states must be prime
+                            let num = parseInt(neighborStr, 10);
+                            if (isPrime(num) || neighborStr === endStr) {
+                                visited.add(neighborStr);
+                                queue.push([...path, neighborStr]);
+                            }
+                        }
+                    }
+                }
+            }
+            return { error: "No" };
+        }
+
+        searchBtn.addEventListener('click', () => {
+            const w = parseInt(routeWheelsSelect.value, 10);
+            const startStr = startInput.value.trim() || startInput.placeholder;
+            const endStr = endInput.value.trim() || endInput.placeholder;
+
+            searchBtn.innerText = "Searching...";
+            searchBtn.disabled = true;
+            resultsDiv.innerHTML = "";
+
+            // Use timeout to allow UI to update "Searching..." state before blocking thread
+            setTimeout(() => {
+                const result = findPath(w, startStr, endStr);
+                
+                if (result.error === "No") {
+                    resultsDiv.innerHTML = `<h3 style="color: #d9534f; font-size: 2rem;">No</h3>`;
+                } else if (result.error) {
+                    resultsDiv.innerHTML = `<p style="color: #d9534f;">${result.error}</p>`;
+                } else {
+                    const formattedPath = result.path.join(' ➔ ');
+                    resultsDiv.innerHTML = `<div class="path-box">${formattedPath}</div><p style="margin-top: 10px; color:#aaa;">Found in ${result.path.length - 1} moves!</p>`;
+                }
+
+                searchBtn.innerText = "Search";
+                searchBtn.disabled = false;
+            }, 50);
+        });
 
     </script>
 </body>
