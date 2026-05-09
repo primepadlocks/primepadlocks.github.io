@@ -472,14 +472,26 @@
             <div class="problem-box" data-wheel="4">
                 <h3 class="problem-title">Problem 1 (4-Wheels)</h3>
                 <p class="problem-text">
-                    You come across a 4-digit combination padlock. The combination is 8017. The padlock is currently showing 0002. If the combination is ever set to a number that is not prime, it resets to 0002 immediately, so every intermediate state from 0002 to 8017 also must be prime. How do you input the combination?
+                    You come across a 4-digit combination padlock. The combination is 1093. The padlock is currently showing 0002. If the combination is ever set to a number that is not prime, it resets to 0002 immediately, so every intermediate state from 0002 to 1093 also must be prime. How do you input the combination?
                     <br><br>
                     The input wheels are arranged in the usual way: 4 positions with digits 0 to 9, decrementing from 0 gets you to 9, incrementing from 9 gets you to 0. There is a mechanism that prevents you from turning more than 1 wheel at a time.
                 </p>
                 <details class="solution">
                     <summary>Solution</summary>
                     <div class="solution-content">
-                        <p>Write your detailed solution here... (Or use the Route Finder tool above to calculate it!)</p>
+                        <p>The Path:
+
+002 (Start point - Prime)
+
+003 (Turn the 3rd dial up by 1 - Prime)
+
+0103 (Turn the 2nd dial up by 1)
+
+1103 (Turn the 1st dial up by 1)
+
+1193 (Turn the 3rd dial down by 1, wrapping 0 to 9)
+
+1093 (Turn the 2nd dial down by 1 to reach the end point)</p>
                     </div>
                 </details>
             </div>
@@ -488,14 +500,26 @@
             <div class="problem-box" data-wheel="3">
                 <h3 class="problem-title">Problem 1 (3-Wheels)</h3>
                 <p class="problem-text">
-                    You come across a 3-digit combination padlock. The combination is 409. The padlock is currently showing 002. If the combination is ever set to a number that is not prime, it resets to 002 immediately, so every intermediate state from 002 to 409 also must be prime. How do you input the combination?
+                    You come across a 3-digit combination padlock. The combination is 283. The padlock is currently showing 002. If the combination is ever set to a number that is not prime, it resets to 002 immediately, so every intermediate state from 002 to 283 also must be prime. How do you input the combination?
                     <br><br>
                     The input wheels are arranged in the usual way: 3 positions with digits 0 to 9, decrementing from 0 gets you to 9, incrementing from 9 gets you to 0. There is a mechanism that prevents you from turning more than 1 wheel at a time.
                 </p>
                 <details class="solution">
                     <summary>Solution</summary>
                     <div class="solution-content">
-                        <p>Write your detailed solution here... (Or use the Route Finder tool above to calculate it!)</p>
+                        <p>The Path:
+
+002 (Start point - Prime)
+
+003 (Turn the 3rd dial up by 1 - Prime)
+
+103 (Turn the 1st dial up by 1 - Prime)
+
+193 (Turn the 2nd dial down by 1, wrapping 0 to 9 - Prime)
+
+293 (Turn the 1st dial up by 1 - Prime)
+
+283 (Turn the 2nd dial down by 1 to reach the end point - Prime)</p>
                     </div>
                 </details>
             </div>
