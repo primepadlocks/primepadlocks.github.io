@@ -14,32 +14,33 @@
         body {
             display: flex;
             flex-direction: column;
-            justify-content: center;
+            justify-content: flex-start;
             align-items: center;
-            height: 100vh;
+            min-height: 100vh;
             background-color: #1e1e24;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             color: #fff;
+            padding-top: 20px;
+            padding-bottom: 40px;
         }
 
         /* Top Navigation Buttons */
         .nav-buttons {
-            position: absolute;
-            top: 20px;
             display: flex;
-            gap: 15px;
+            gap: 10px;
             flex-wrap: wrap;
             justify-content: center;
             padding: 0 10px;
+            margin-bottom: 40px;
         }
 
         .nav-buttons button {
             background-color: #333;
             color: #ddd;
             border: 1px solid #555;
-            padding: 8px 16px;
+            padding: 10px 18px;
             border-radius: 6px;
-            font-size: 0.9rem;
+            font-size: 0.95rem;
             cursor: pointer;
             transition: all 0.2s;
         }
@@ -58,7 +59,6 @@
 
         /* Status and Prime Indicator */
         .status-container {
-            margin-top: 40px; /* added margin to clear top buttons */
             margin-bottom: 30px;
             text-align: center;
         }
@@ -67,12 +67,12 @@
             font-size: 2.5rem;
             letter-spacing: 8px;
             font-family: monospace;
-            margin-bottom: 15px;
+            margin-bottom: 20px;
         }
 
         .prime-indicator {
             font-size: 1.2rem;
-            padding: 8px 16px;
+            padding: 8px 20px;
             border-radius: 20px;
             background-color: #444;
             transition: background-color 0.3s;
@@ -85,16 +85,17 @@
         /* Lock Mechanism */
         .lock-container {
             display: flex;
-            gap: 15px;
+            gap: 12px;
             background: #2a2a35;
             padding: 25px;
             border-radius: 12px;
             box-shadow: 0 15px 35px rgba(0,0,0,0.6), inset 0 2px 5px rgba(255,255,255,0.1);
+            margin-bottom: 40px;
         }
 
         /* Individual Wheels */
         .wheel {
-            width: 60px;
+            width: 55px;
             height: 150px;
             background: linear-gradient(180deg, #111 0%, #ddd 35%, #fff 50%, #ddd 65%, #111 100%);
             border-radius: 8px;
@@ -142,22 +143,18 @@
             height: 50px;
             line-height: 50px;
             text-align: center;
-            font-size: 28px;
+            font-size: 26px;
             font-weight: bold;
             color: #222;
         }
 
         /* Controls */
-        .controls {
-            margin-top: 30px;
-        }
-
         .undo-btn {
             background-color: #d9534f;
             color: white;
             border: none;
-            padding: 12px 24px;
-            font-size: 1rem;
+            padding: 14px 28px;
+            font-size: 1.1rem;
             border-radius: 6px;
             cursor: pointer;
             box-shadow: 0 4px 6px rgba(0,0,0,0.3);
@@ -214,10 +211,11 @@
         }
 
         // Highlight the active button
-        document.getElementById(`btn-${numWheels}`).classList.add('active');
+        const activeButton = document.getElementById(`btn-${numWheels}`);
+        if(activeButton) activeButton.classList.add('active');
 
         // --- State Management ---
-        let code = Array(numWheels).fill(0); // Dynamically set array size based on wheels
+        let code = Array(numWheels).fill(0);
         let history = [];
         let activeWheelIndex = null;
 
@@ -337,312 +335,6 @@
                 rebuildWheel(activeWheelIndex);
                 updateStatusDisplay();
                 activeWheelIndex = null; 
-            }, 50); 
-        }
-
-        function rebuildWheel(index) {
-            const inner = document.getElementById(`wheel-inner-${index}`);
-            inner.innerHTML = '';
-            const value = code[index];
-            for (let offset = -2; offset <= 2; offset++) {
-                const digit = document.createElement('div');
-                digit.className = 'digit';
-                digit.innerText = (value + offset + 10) % 10;
-                inner.appendChild(digit);
-            }
-        }
-
-        // --- Undo Logic ---
-        function saveHistory() {
-            history.push([...code]);
-        }
-
-        undoBtn.addEventListener('click', () => {
-            if (history.length > 0) {
-                code = history.pop();
-                code.forEach((_, idx) => rebuildWheel(idx));
-                updateStatusDisplay();
-            }
-        });
-
-        // --- Boot it up ---
-        initLock();
-
-    </script>
-</body>
-</html>
-
-        .prime-indicator {
-            font-size: 1.2rem;
-            padding: 8px 16px;
-            border-radius: 20px;
-            background-color: #444;
-            transition: background-color 0.3s;
-        }
-
-        .prime-indicator.is-prime {
-            background-color: #2e8b57; /* Sea Green */
-        }
-
-        /* Lock Mechanism */
-        .lock-container {
-            display: flex;
-            gap: 15px;
-            background: #2a2a35;
-            padding: 25px;
-            border-radius: 12px;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.6), inset 0 2px 5px rgba(255,255,255,0.1);
-        }
-
-        /* Individual Wheels */
-        .wheel {
-            width: 60px;
-            height: 150px;
-            background: linear-gradient(180deg, #111 0%, #ddd 35%, #fff 50%, #ddd 65%, #111 100%);
-            border-radius: 8px;
-            position: relative;
-            overflow: hidden;
-            touch-action: none; /* Prevents page scrolling when swiping the wheel */
-            user-select: none;
-            box-shadow: inset 0 0 10px rgba(0,0,0,0.8);
-            cursor: grab;
-        }
-
-        .wheel:active {
-            cursor: grabbing;
-        }
-
-        /* Red targeting line across the center */
-        .wheel::after {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 0;
-            right: 0;
-            height: 2px;
-            background: rgba(255, 0, 0, 0.4);
-            transform: translateY(-50%);
-            pointer-events: none;
-            z-index: 10;
-        }
-
-        .wheel-inner {
-            position: absolute;
-            top: 50%;
-            left: 0;
-            width: 100%;
-            display: flex;
-            flex-direction: column;
-            transform: translateY(-50%);
-            /* Snap transition */
-            transition: transform 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94); 
-        }
-
-        .wheel-inner.dragging {
-            transition: none; /* Follow finger immediately without delay */
-        }
-
-        .digit {
-            height: 50px;
-            line-height: 50px;
-            text-align: center;
-            font-size: 28px;
-            font-weight: bold;
-            color: #222;
-        }
-
-        /* Controls */
-        .controls {
-            margin-top: 30px;
-        }
-
-        .undo-btn {
-            background-color: #d9534f;
-            color: white;
-            border: none;
-            padding: 12px 24px;
-            font-size: 1rem;
-            border-radius: 6px;
-            cursor: pointer;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.3);
-            transition: background-color 0.2s, transform 0.1s;
-        }
-
-        .undo-btn:hover {
-            background-color: #c9302c;
-        }
-
-        .undo-btn:active {
-            transform: translateY(2px);
-            box-shadow: 0 1px 3px rgba(0,0,0,0.3);
-        }
-
-        .undo-btn:disabled {
-            background-color: #555;
-            color: #888;
-            cursor: not-allowed;
-            box-shadow: none;
-        }
-    </style>
-</head>
-<body>
-
-    <div class="status-container">
-        <div class="code-display" id="code-display">00000</div>
-        <div class="prime-indicator" id="prime-indicator">Prime: No</div>
-    </div>
-
-    <div class="lock-container" id="lock-container">
-        </div>
-
-    <div class="controls">
-        <button class="undo-btn" id="undo-btn" disabled>↺ Undo Last Move</button>
-    </div>
-
-    <script>
-        // --- State Management ---
-        let code = [0, 0, 0, 0, 0];
-        let history = [];
-        let activeWheelIndex = null; // Prevents turning >1 wheel at a time
-
-        // --- Dragging Variables ---
-        let startY = 0;
-        let currentY = 0;
-        const digitHeight = 50; 
-        const snapThreshold = 25; // px distance required to commit a change
-
-        // --- DOM Elements ---
-        const lockContainer = document.getElementById('lock-container');
-        const codeDisplay = document.getElementById('code-display');
-        const primeIndicator = document.getElementById('prime-indicator');
-        const undoBtn = document.getElementById('undo-btn');
-
-        // --- Utility: Prime Number Checker ---
-        function isPrime(num) {
-            if (num <= 1) return false;
-            if (num <= 3) return true;
-            if (num % 2 === 0 || num % 3 === 0) return false;
-            for (let i = 5; i * i <= num; i += 6) {
-                if (num % i === 0 || num % (i + 2) === 0) return false;
-            }
-            return true;
-        }
-
-        // --- Initialization & Rendering ---
-        function initLock() {
-            lockContainer.innerHTML = '';
-            code.forEach((value, index) => {
-                const wheel = document.createElement('div');
-                wheel.className = 'wheel';
-                wheel.dataset.index = index;
-
-                const inner = document.createElement('div');
-                inner.className = 'wheel-inner';
-                inner.id = `wheel-inner-${index}`;
-
-                // Populate with 5 digits so you can see above and below while dragging
-                // Layout: [val-2, val-1, val, val+1, val+2]
-                for (let offset = -2; offset <= 2; offset++) {
-                    const digit = document.createElement('div');
-                    digit.className = 'digit';
-                    digit.innerText = (value + offset + 10) % 10;
-                    inner.appendChild(digit);
-                }
-
-                wheel.appendChild(inner);
-
-                // Event Listeners for Touch & Mouse via Pointer Events
-                wheel.addEventListener('pointerdown', handlePointerDown);
-                
-                lockContainer.appendChild(wheel);
-            });
-
-            updateStatusDisplay();
-        }
-
-        // --- Update UI ---
-        function updateStatusDisplay() {
-            // Update Text
-            const currentCodeStr = code.join('');
-            codeDisplay.innerText = currentCodeStr;
-            
-            // Check Prime
-            const num = parseInt(currentCodeStr, 10);
-            const primeCheck = isPrime(num);
-            primeIndicator.innerText = primeCheck ? `Prime: Yes` : `Prime: No`;
-            primeIndicator.className = primeCheck ? 'prime-indicator is-prime' : 'prime-indicator';
-
-            // Undo button state
-            undoBtn.disabled = history.length === 0;
-        }
-
-        // --- Wheel Interaction Logic ---
-        function handlePointerDown(e) {
-            // Prevent grabbing another wheel if one is active
-            if (activeWheelIndex !== null) return; 
-
-            const wheel = e.currentTarget;
-            activeWheelIndex = parseInt(wheel.dataset.index, 10);
-            startY = e.clientY;
-            currentY = e.clientY;
-
-            const inner = document.getElementById(`wheel-inner-${activeWheelIndex}`);
-            inner.classList.add('dragging');
-
-            // Attach move/up listeners to the window so it tracks outside the wheel element
-            window.addEventListener('pointermove', handlePointerMove);
-            window.addEventListener('pointerup', handlePointerUp);
-            window.addEventListener('pointercancel', handlePointerUp);
-        }
-
-        function handlePointerMove(e) {
-            if (activeWheelIndex === null) return;
-            e.preventDefault(); // Stop scrolling on touch devices
-
-            currentY = e.clientY;
-            const deltaY = currentY - startY;
-
-            const inner = document.getElementById(`wheel-inner-${activeWheelIndex}`);
-            // Translate visually from the center baseline
-            inner.style.transform = `translateY(calc(-50% + ${deltaY}px))`;
-        }
-
-        function handlePointerUp(e) {
-            if (activeWheelIndex === null) return;
-
-            // Remove window listeners
-            window.removeEventListener('pointermove', handlePointerMove);
-            window.removeEventListener('pointerup', handlePointerUp);
-            window.removeEventListener('pointercancel', handlePointerUp);
-
-            const inner = document.getElementById(`wheel-inner-${activeWheelIndex}`);
-            inner.classList.remove('dragging');
-
-            const deltaY = currentY - startY;
-            let valChanged = false;
-
-            // Snap Logic
-            if (deltaY > snapThreshold) {
-                // Dragged down -> Decrement
-                saveHistory();
-                code[activeWheelIndex] = (code[activeWheelIndex] - 1 + 10) % 10;
-                valChanged = true;
-            } else if (deltaY < -snapThreshold) {
-                // Dragged up -> Increment
-                saveHistory();
-                code[activeWheelIndex] = (code[activeWheelIndex] + 1) % 10;
-                valChanged = true;
-            }
-
-            // Re-render that specific wheel to center the new value, 
-            // and clear the custom transform to let CSS snap it back.
-            inner.style.transform = ''; 
-            
-            // Short timeout allows the CSS transform snap to trigger visually before DOM rebuild
-            setTimeout(() => {
-                rebuildWheel(activeWheelIndex);
-                updateStatusDisplay();
-                activeWheelIndex = null; // Release the lock mechanism
             }, 50); 
         }
 
